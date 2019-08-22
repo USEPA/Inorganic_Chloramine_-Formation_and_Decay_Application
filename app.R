@@ -1,6 +1,5 @@
 #Required R packages for application to run
 library(deSolve)
-library(DT)
 library(ggplot2)
 library(reshape2)
 library(scales)
@@ -499,12 +498,12 @@ server <- function(input, output, session) {
   })
 
   #Get initial conditions summary table
-  output$A_ic <- renderDataTable({
+  output$A_ic <- DT::renderDT({
     #Take a dependency on input$simupdate
     if(input$simupdateA == 0) return(NULL)
 
     #Isolate simulation run only on input$simupdate button selection
-    isolate(datatable(
+    isolate(DT::datatable(
       do.call(initial_conditions, sim_Params("A")),
       options = list(
         dom = "t",
@@ -518,14 +517,15 @@ server <- function(input, output, session) {
           )
         )
       ))
-    })
+    },
+    server = FALSE)
 
-  output$B_ic <- renderDataTable({
+  output$B_ic <- DT::renderDT({
     #Take a dependency on input$simupdate
     if(input$simupdateB == 0) return(NULL)
 
     #Isolate simulation run only on input$simupdate button selection
-    isolate(datatable(
+    isolate(DT::datatable(
       do.call(initial_conditions, sim_Params("B")),
       options = list(
         dom = "t",
@@ -536,10 +536,11 @@ server <- function(input, output, session) {
           list(className = "alignRight", targets = c(0,1)),
           list(orderable = FALSE, targets = c(0,1)),
           list(searchable = FALSE, targets = c(0,1))
+          )
         )
-      )
-    ))
-  })
+      ))
+    },
+    server = FALSE)
 
   #Produce desired reactive plots
   output$A_ind <- renderPlot({
@@ -1244,7 +1245,7 @@ render_plot_inputs <- function(prefix) {
              h4(paste0("Simulation ", prefix, " Initial Conditions")),
 
              #Call function to create summary table of initial conditions used in simulations
-             dataTableOutput(paste0(prefix, "_ic"))
+             DT::DTOutput(paste0(prefix, "_ic"))
              )
       )
     )
