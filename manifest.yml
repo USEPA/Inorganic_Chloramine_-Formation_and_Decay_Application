@@ -1,4 +1,7 @@
 ---
 applications:
 - name: inorganicchloramine
-  memory: 768M
+  memory: 750M
+  instances: 3
+  routes:
+  - route: cfd.apps.internal
