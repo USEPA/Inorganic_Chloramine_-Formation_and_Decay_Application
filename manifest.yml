@@ -1,6 +1,6 @@
 ---
 applications:
-- name: inorganicchloramine
+- name: cfd
   memory: 750M
   instances: 3
   routes:
