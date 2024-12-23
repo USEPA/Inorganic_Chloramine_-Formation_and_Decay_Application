@@ -1,7 +1,0 @@
----
-applications:
-- name: cfd
-  memory: 750M
-  instances: 3
-  routes:
-  - route: cfd.apps.internal
